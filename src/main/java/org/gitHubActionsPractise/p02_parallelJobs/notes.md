@@ -22,6 +22,9 @@ This workflow runs **3 separate jobs**, each on its own GitHub-hosted Ubuntu mac
 
 These jobs **run in parallel** by default because there are no dependencies defined between them.
 
+---
+
+## 🧪 Output in GitHub UI
 ![Screenshot 2025-06-10 at 10.03.28 PM.png](Screenshot%202025-06-10%20at%2010.03.28%E2%80%AFPM.png)
 
 ---
@@ -67,29 +70,5 @@ docker --version
 ```
 
 → Verifies the Docker CLI version available on the runner.
-
----
-
-### 🧠 What This Teaches You
-
-| Concept             | What You’re Learning                           |
-| ------------------- | ---------------------------------------------- |
-| Multiple jobs       | Defining and running jobs independently        |
-| Job parallelism     | Jobs run in parallel unless you define `needs` |
-| Runners             | Each job runs on a clean VM (`ubuntu-latest`)  |
-| Step sequencing     | Each job’s steps run in sequence               |
-| Logging with `date` | Time tracking in jobs                          |
-
----
-
-### ✅ Output in GitHub Actions UI
-
-In the GitHub Actions tab, you’ll see **three separate job cards**, each labeled:
-
-* `java-version-check-job-1`
-* `maven-version-check-job-2`
-* `docker-version-check-job-3`
-
-Each job shows the console output for each step — ideal for debugging or learning.
 
 ---
