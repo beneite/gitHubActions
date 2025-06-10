@@ -3,6 +3,9 @@
 **Workflow Name**:
 `a simple workflow to find java, maven, docker version on runner machine`
 
+---
+## 🧪 Output in GitHub UI
+
 ![Screenshot 2025-06-10 at 9.47.11 PM.png](Screenshot%202025-06-10%20at%209.47.11%E2%80%AFPM.png)
 
 # **Trigger**:
