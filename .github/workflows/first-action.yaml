@@ -1,4 +1,4 @@
-name: a simple workflow to install java on runner machine
+name: a simple workflow to find java, maven, docker version on runner machine
 on: [push]
 
 jobs:
@@ -11,11 +11,11 @@ jobs:
       - name: step 2. finding java version
         run: java --version
 
-      - name: step 3. installing java
-        run: sudo apt install -y openjdk-17-jdk
+      - name: step 3. finding maven version
+        run: mvn --version
 
-      - name: step 4. verify java version after completing installation.
-        run: java --version
+      - name: step 4. finding docker version
+        run: docker --version
 
       - name: step 5. Ending the Job
         run: echo "Ended the Job at $(date)"
