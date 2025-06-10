@@ -1,0 +1,39 @@
+name: a simple workflow to find java, maven, docker version on runner machine
+on: [ push ]
+
+jobs:
+  java-version-check-job-1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: step 1. Starting the Job
+        run: echo "Starting the Job at $(date)"
+
+      - name: step 2. finding java version
+        run: java --version
+
+      - name: step 3. Ending the Job
+        run: echo "Ended the Job at $(date)"
+
+    maven-version-check-job-2:
+      runs-on: ubuntu-latest
+      steps:
+        - name: step 1. Starting the Job
+          run: echo "Starting the Job at $(date)"
+
+        - name: step 2. finding maven version
+          run: mvn --version
+
+        - name: step 3. Ending the Job
+          run: echo "Ended the Job at $(date)"
+
+    docker-version-check-job-3:
+      runs-on: ubuntu-latest
+      steps:
+        - name: step 1. Starting the Job
+          run: echo "Starting the Job at $(date)"
+
+        - name: step 2. finding docker version
+          run: docker --version
+
+        - name: step 3. Ending the Job
+          run: echo "Ended the Job at $(date)"
