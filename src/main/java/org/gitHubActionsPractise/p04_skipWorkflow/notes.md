@@ -94,5 +94,5 @@ Then, trigger the workflow manually or via an API with `SKIP_WORKFLOW=true`.
 | Env var flags            | ✅ Workflow or job with control logic |
 
 ---
-
+ 
 Let me know which approach you want to implement and I can tailor an example!
