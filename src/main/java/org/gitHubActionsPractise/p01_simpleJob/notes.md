@@ -3,17 +3,19 @@
 **Workflow Name**:
 `a simple workflow to find java, maven, docker version on runner machine`
 
-**Trigger**:
+![Screenshot 2025-06-10 at 9.47.11 PM.png](Screenshot%202025-06-10%20at%209.47.11%E2%80%AFPM.png)
+
+# **Trigger**:
 This workflow runs **on every `push`** to the repository — that is, whenever you push new commits to any branch.
 
 ---
 
-### ⚙️ **Job: `java-version-check-job`**
+## ⚙️ **Job: `java-version-check-job`**
 
 * **Runs On**: `ubuntu-latest`
   → This uses a fresh Ubuntu virtual machine (currently `ubuntu-22.04` as of 2025).
 
-#### 👇 This job includes the following steps:
+## 👇 This job includes the following steps:
 
 ---
 
