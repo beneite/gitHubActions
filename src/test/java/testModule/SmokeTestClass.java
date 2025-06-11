@@ -16,6 +16,7 @@ public class SmokeTestClass {
         System.out.println("=====> Starting test: " + method.getName());
     }
 
+
     @Test
     public void smokeTestOne(){
         Assert.assertEquals(1, 1);
