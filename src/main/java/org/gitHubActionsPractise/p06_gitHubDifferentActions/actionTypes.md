@@ -1,4 +1,6 @@
-# GitHub Actions provides a huge number of actions—**thousands**—created and maintained by GitHub and the community. These actions are reusable units of code you can use in workflows. Here's a categorized list of the **most commonly used and official GitHub Actions**, followed by **how to discover all available actions**.
+# GitHub Actions 
+
+### GitHub Actions provides a huge number of actions—**thousands**—created and maintained by GitHub and the community. These actions are reusable units of code you can use in workflows. Here's a categorized list of the **most commonly used and official GitHub Actions**, followed by **how to discover all available actions**.
 
 ---
 
