@@ -1,6 +1,7 @@
 name: this Workflow will trigger when PR merged on branch-Production on opened, synchronize, reopened, closed actions.
 
 on:
+  push:
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:
