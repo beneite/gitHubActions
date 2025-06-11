@@ -1,21 +1,24 @@
-name: workflow to download the repo on runner machine
-on: [ push ]
+name: this Workflow will trigger when PR merged on branch-Production on opened, synchronize, reopened, closed actions.
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches:
+      - productionBranch
 
 jobs:
-  checkout-repo-job:
+  run-smoke-test:
     runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true || github.event.action != 'closed'
     steps:
-      - name: step 1. Starting the Job
-        run: echo "Starting the Job at $(date)"
-
-      - name: step 2. listing files before downloading our repo
-        run: ls -a
-
-      - name: step 3. checking out the repo
+      - name: Checking out the repo...
         uses: actions/checkout@v4
 
-      - name: step 4. listing files after repo checkout
-        run: ls -a
+      - name: Setting up the Test Environment
+        run: echo "Ready to Start Smoke test"
 
-      - name: step 5. Ending the Job
-        run: echo "Ended the Job at $(date)"
+      - name: Run TestNG tests
+        run: mvn clean test -Dtest=SmokeTestClass.java
+
+      - name: Tearing down the Test Environment
+        run: echo "Start Smoke test completed"
