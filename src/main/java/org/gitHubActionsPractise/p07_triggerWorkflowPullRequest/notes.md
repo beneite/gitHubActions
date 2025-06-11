@@ -1,118 +1,113 @@
 # ✅ **Workflow Name**
 
 ```yaml
-name: this Workflow will trigger when PR merged on branch-Production on opened, synchronize, reopened, closed actions.
+name: this Workflow will trigger when PR merged on branch-productionBranch on opened, synchronize, reopened, closed actions.
 ```
 
-This is the **name** of your workflow and appears in the **Actions tab** on GitHub. It clearly states when and on which branch the workflow triggers.
+This is a **human-readable title** that shows in the **GitHub Actions UI**.
 
 ---
 
-## 🧲 **Trigger Block**
+## 🧲 **Triggers (`on:` block)**
 
 ```yaml
 on:
+  push:
+    branches:
+      - productionBranch
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:
       - productionBranch
 ```
 
-This workflow will trigger when a **pull request** targeting the branch `productionBranch` is:
+This defines when the workflow will be triggered:
 
-| Action        | What it means                                    |
-| ------------- | ------------------------------------------------ |
-| `opened`      | A new PR is created targeting `productionBranch` |
-| `synchronize` | New commits are pushed to the PR                 |
-| `reopened`    | A previously closed PR is reopened               |
-| `closed`      | The PR is closed (either merged or discarded)    |
+| Event          | Condition                                                                                 | Meaning                                                                                   |
+| -------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| `push`         | to `productionBranch`                                                                     | Triggered when someone pushes directly (e.g., merge, commit) to `productionBranch`        |
+| `pull_request` | PR targets `productionBranch` and the PR is: `opened`, `updated`, `reopened`, or `closed` | Triggered when a PR is created, updated, reopened, or closed targeting `productionBranch` |
 
 ---
 
-## ⚙️ **Job: `run-smoke-test`**
+## 🚦 **Job: `run-smoke-test`**
 
 ```yaml
 jobs:
   run-smoke-test:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true || github.event.action != 'closed'
 ```
 
-* This job will **only run if**:
-
-    * The PR was **merged** (i.e. `merged == true`)
-    * **OR** if the PR is still open (`action != 'closed'`)
-* This ensures the job is **skipped for PRs that are closed without merging**.
+* This job runs on the latest **Ubuntu runner** provided by GitHub.
 
 ---
 
-## 🔽 **Steps Explained**
+### ✅ Conditional Job Execution
 
-### 1. **Checkout the Code**
+```yaml
+    if: github.event_name == 'push' || github.event.pull_request.merged == true || github.event.action != 'closed'
+```
+
+This ensures the job runs **only when appropriate**:
+
+| Condition                                  | Meaning                                                         |
+| ------------------------------------------ | --------------------------------------------------------------- |
+| `github.event_name == 'push'`              | If it's a push to `productionBranch`, run the job               |
+| `github.event.pull_request.merged == true` | If the PR was merged (not just closed), run the job             |
+| `github.event.action != 'closed'`          | If the PR is being created or updated (not closed), run the job |
+
+✅ This way, you **avoid running the job on closed-but-not-merged PRs**, which are often discarded PRs.
+
+---
+
+### 🔧 **Job Steps**
+
+#### Step 1: Checkout Repository
 
 ```yaml
 - name: Checking out the repo...
   uses: actions/checkout@v4
 ```
 
-This checks out your repository code to the runner so it can run tests on the latest PR code.
+This pulls your repo code into the runner, so you can run commands like `mvn test`.
 
 ---
 
-### 2. **Environment Setup**
+#### Step 2: Setup
 
 ```yaml
 - name: Setting up the Test Environment
   run: echo "Ready to Start Smoke test"
 ```
 
-Just prints a message. In real use, this could prepare environment variables, files, or configs.
+This is just a message, but this step can be expanded later to include:
+
+* environment setup
+* test data preparation
+* setting environment variables
 
 ---
 
-### 3. **Run Smoke Test with TestNG**
+#### Step 3: Run Smoke Tests
 
 ```yaml
-- name: Run TestNG tests
-  run: mvn clean test -Dtest=SmokeTestClass.java
+- name: Running Smoke tests for build stability
+  run: mvn clean test -Dtest=SmokeTestClass
 ```
 
-This command:
+This:
 
-* Runs Maven
-* Cleans any previously compiled files
-* Runs tests **only in `SmokeTestClass`**
+* Runs a **specific TestNG test class** named `SmokeTestClass`
+* Ensures only that class’s `@Test` methods are executed
+* Uses `mvn clean` to delete previous builds
 
-```bash
--Dtest=SmokeTestClass
-```
-
-You should update that line to:
-
-```yaml
-run: mvn clean test -Dtest=SmokeTestClass
-```
+🔸 Tip: Make sure `SmokeTestClass` is in the correct Maven test directory structure (`src/test/java/...`).
 
 ---
 
-### 4. **Teardown (Clean up / Final Step)**
+#### Step 4: Teardown
 
 ```yaml
 - name: Tearing down the Test Environment
   run: echo "Start Smoke test completed"
 ```
-
-This just prints a message. Could be used to remove temp files, log cleanup, etc.
-
----
-
-## ✅ Summary
-
-| Aspect                                                      | Behavior           |
-| ----------------------------------------------------------- | ------------------ |
-| **Triggered on PR to `productionBranch`**                   | Yes                |
-| **Runs for both PR creation/updates and merges**            | Yes                |
-| **Skips on PRs that are closed without merging**            | Yes                |
-| **Runs only specific TestNG test class (`SmokeTestClass`)** | Yes                |
-
----

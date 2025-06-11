@@ -1,6 +1,9 @@
-name: this Workflow will trigger when PR merged on branch-Production on opened, synchronize, reopened, closed actions.
+name: this Workflow will trigger when PR merged on branch-productionBranch on opened, synchronize, reopened, closed actions.
 
 on:
+  push:
+    branches:
+      - productionBranch
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:
@@ -9,7 +12,7 @@ on:
 jobs:
   run-smoke-test:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true || github.event.action != 'closed'
+    if: github.event_name == 'push' || github.event.pull_request.merged == true || github.event.action != 'closed'
     steps:
       - name: Checking out the repo...
         uses: actions/checkout@v4
@@ -17,7 +20,7 @@ jobs:
       - name: Setting up the Test Environment
         run: echo "Ready to Start Smoke test"
 
-      - name: Run TestNG tests
+      - name: Running Smoke tests for build stability
         run: mvn clean test -Dtest=SmokeTestClass
 
       - name: Tearing down the Test Environment
