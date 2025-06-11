@@ -18,7 +18,7 @@ jobs:
         run: echo "Ready to Start Smoke test"
 
       - name: Run TestNG tests
-        run: mvn clean test -Dtest=SmokeTestClass.java
+        run: mvn clean test -Dtest=SmokeTestClass
 
       - name: Tearing down the Test Environment
         run: echo "Start Smoke test completed"
