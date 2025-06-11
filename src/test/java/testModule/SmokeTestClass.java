@@ -65,5 +65,4 @@ public class SmokeTestClass {
             throw new RuntimeException(e);
         }
     }
-
 }
