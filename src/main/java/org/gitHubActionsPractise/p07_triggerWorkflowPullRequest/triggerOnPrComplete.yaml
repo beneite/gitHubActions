@@ -1,4 +1,4 @@
-name: this Workflow will trigger when PR merged on branch-Production is completed, raised, opened.
+name: this Workflow will trigger when PR merged on branch-Production on opened, synchronize, reopened, closed actions.
 
 on:
   pull_request:
