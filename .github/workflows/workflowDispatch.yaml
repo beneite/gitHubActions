@@ -1,0 +1,43 @@
+# this will be specific to branch =
+name: Manually Triggered with some parameters
+on:
+  workflow_dispatch:
+    inputs:
+      userName:
+        description: enter the username of the person who will trigger the workflow
+        type: string
+        required: true
+        default: "Default value"
+      number:
+        description: A number input
+        default: 4
+        type: number
+      option:
+        description: "An Options Input"
+        required: true
+        default: "Option 3"
+        type: choice
+        options:
+          - Option 1
+          - Option 2
+          - Option 3
+      boolean:
+        description: A boolean option
+        required: false
+        type: boolean
+      environment:
+        description: "Environment"
+        type: environment
+        required: true
+
+jobs:
+  log-info:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo $GITHUB_REF
+      - run: |
+          echo "String: ${{ inputs.string }}"
+          echo "Number: ${{ inputs.number }}"
+          echo "Option: ${{ inputs.option }}"
+          echo "Boolean: ${{ inputs.boolean }}"
+          echo "Environment: ${{ inputs.environment }}"

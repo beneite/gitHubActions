@@ -1,0 +1,8 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Sanity Test Suite">
+    <test name="Sanity Tests">
+        <classes>
+            <class name="testModule.SanityTestClass"/>
+        </classes>
+    </test>
+</suite>

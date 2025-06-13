@@ -1,6 +1,3 @@
-/**
- * this class has few sample/mock test methods which will run
- */
 package testModule;
 
 import org.testng.Assert;
@@ -11,25 +8,25 @@ import org.testng.annotations.Test;
 
 import java.lang.reflect.Method;
 
-public class SmokeTestClass {
+public class RegressionTestClass {
 
     @BeforeTest
     public void logTestStart() {
-        System.out.println("************ Starting Smoke test Suite ************ ");
+        System.out.println("************ Starting Regression test Suite ************ ");
     }
 
     @AfterTest
     public void logTestStop() {
-        System.out.println("************ Completing Smoke test Suite ************ ");
+        System.out.println("************ Completing Regression test Suite ************ ");
     }
 
     @BeforeMethod
     public void logTestMethodStart(Method method) {
-        System.out.println("=====> Starting Smoke test case: " + method.getName());
+        System.out.println("=====> Starting Regression test case: " + method.getName());
     }
 
-    @Test(groups = {"smoke"})
-    public void smokeTest01(){
+    @Test(groups = {"regression"})
+    public void regressionTest01(){
         Assert.assertEquals(1, 1);
         try {
             Thread.sleep(2000);
@@ -38,8 +35,8 @@ public class SmokeTestClass {
         }
     }
 
-    @Test(groups = {"smoke"})
-    public void smokeTest02(){
+    @Test(groups = {"regression"})
+    public void regressionTest02(){
         Assert.assertEquals(1, 1);
         try {
             Thread.sleep(2000);
@@ -48,8 +45,8 @@ public class SmokeTestClass {
         }
     }
 
-    @Test(groups = {"smoke"})
-    public void smokeTest03(){
+    @Test(groups = {"regression"})
+    public void regressionTest03(){
         Assert.assertEquals(1, 1);
         try {
             Thread.sleep(2000);
@@ -58,8 +55,8 @@ public class SmokeTestClass {
         }
     }
 
-    @Test(groups = {"smoke"})
-    public void smokeTest04(){
+    @Test(groups = {"regression"})
+    public void regressionTest04(){
         Assert.assertEquals(1, 1);
         try {
             Thread.sleep(2000);
@@ -68,8 +65,28 @@ public class SmokeTestClass {
         }
     }
 
-    @Test(groups = {"smoke"})
-    public void smokeTest05(){
+    @Test(groups = {"regression"})
+    public void regressionTest05(){
+        Assert.assertEquals(1, 1);
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test(groups = {"regression"})
+    public void regressionTest06(){
+        Assert.assertEquals(1, 1);
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test(groups = {"regression"})
+    public void regressionTest07(){
         Assert.assertEquals(1, 1);
         try {
             Thread.sleep(2000);
