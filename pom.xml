@@ -22,5 +22,22 @@
             <version>7.11.0</version>
         </dependency>
     </dependencies>
+    <build>
+        <plugins>
+            <!-- Surefire Plugin to run testng.xml from resources -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M9</version>
+                <configuration>
+                    <suiteXmlFiles>
+                        <!--suppress UnresolvedMavenProperty -->
+                        <suiteXmlFile>src/test/resources/${suite}</suiteXmlFile>
+                    </suiteXmlFiles>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
 
 </project>
