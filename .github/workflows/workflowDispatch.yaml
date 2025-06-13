@@ -1,4 +1,10 @@
-name: workflow_dispatch - Run Test cases
+name: workflow_dispatch - Run Test cases branch=manualTriggerBranch
+
+description: |
+  This work flow will run for branch manualTriggerBranch, so you can switch that branch and run.
+  This workflow allows a user to manually trigger smoke, sanity, or regression test suites.
+  The user must provide their name, test priority, and select the type of test they want to execute.
+  It will only run on the branch named 'manualTriggerBranch'.
 
 on:
   workflow_dispatch:
