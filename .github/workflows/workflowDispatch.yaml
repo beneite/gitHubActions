@@ -1,4 +1,4 @@
-name: Manually Triggered Test Runner
+name: Manually Triggered Test Runner for branch = manualTriggerBranch
 
 on:
   workflow_dispatch:
@@ -29,7 +29,6 @@ on:
 jobs:
   trigger-tests:
     runs-on: ubuntu-latest
-    if: github.ref_name == 'manualTriggerBranch'
     steps:
       - name: Step 1 - Acknowledge Trigger
         run: |
