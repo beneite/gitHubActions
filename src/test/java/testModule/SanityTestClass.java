@@ -36,7 +36,7 @@ public class SanityTestClass {
     }
 
     @Test(groups = {"sanity"})
-    public void sanity02(){
+    public void sanityTest02(){
         Assert.assertEquals(1, 1);
         try {
             Thread.sleep(2000);
