@@ -60,7 +60,7 @@ jobs:
           
           elif [[ "${{ inputs.testType }}" == "sanity" ]]; then
             mvn clean test -Dsuite=sanityTestSuite.xml
-      
+
 
       - name: Step 5 - Test Run Completed
         run: echo "Test Execution completed"
