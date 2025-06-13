@@ -1,4 +1,4 @@
-name: Manually Triggered Test Runner for branch = manualTriggerBranch
+name: workflow_dispatch - Run Test cases
 
 on:
   workflow_dispatch:
@@ -59,7 +59,7 @@ jobs:
           
           elif [[ "${{ inputs.testType }}" == "sanity" ]]; then
             mvn clean test -Dsuite=sanityTestSuite.xml
-      
+          fi
 
       - name: Step 5 - Test Run Completed
         run: echo "Test Execution completed"
