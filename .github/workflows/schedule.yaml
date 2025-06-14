@@ -1,4 +1,4 @@
-name: Schedule workflow to run Regression test
+name: Schedule workflow to run regression test
 
 on:
   schedule:
@@ -16,7 +16,7 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-          
+
       - name: Step 3 - Starting the Test
         run: echo "Starting the Test..."
 
