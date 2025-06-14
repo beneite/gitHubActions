@@ -74,7 +74,7 @@ You can use environment variables or matrix strategy to control which suite to r
 Would you like a cron-based scheduler that runs:
 
 * **Smoke tests daily**
-* **Sanity tests weekly**
+* **Sanity tests weekly** 
 * **Regression tests every 2 days**?
 
 Let me know your frequency needs.
