@@ -1,4 +1,6 @@
-name: Expressions and Context printing
+name: Expressions and Context
+
+run-name: "Printing Expressions and Context by user: @${{ github.actor }}, event: ${{ github.event_name }}"
 
 on:
   workflow_dispatch:
@@ -9,14 +11,14 @@ jobs:
     steps:
       - name: Displaying some Expressions
         run: |
-          echo "${{ 1 }}"
-          echo "${{ 'this is a String' }}"
-          echo "${{ null }}"
-          echo "${{ true }}"
-          echo "${{ 1 > 2 }}"
-          echo "${{ 'string' == 'String' }}"
-          echo "${{ true && false }}"
-          echo "${{ true || false }}"
+          echo "1 evaluates to: ${{ 1 }}"
+          echo "'this is a String' evaluates to: ${{ 'this is a String' }}"
+          echo "null evaluates to: ${{ null }}"
+          echo "true evaluates to: ${{ true }}"
+          echo "Is 1 > 2? => ${{ 1 > 2 }}"
+          echo "Is 'string' == 'String'? => ${{ 'string' == 'String' }}"
+          echo "true && false evaluates to: ${{ true && false }}"
+          echo "true || false evaluates to: ${{ true || false }}"
 
       - name: Displaying some Contexts
         run: |
