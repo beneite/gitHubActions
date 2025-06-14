@@ -1,0 +1,27 @@
+name: Expressions and Context printing
+
+on:
+  workflow_dispatch:
+
+jobs:
+  printing-values:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Displaying some Expressions
+        run: |
+          echo "${{ 1 }}"
+          echo "${{ 'this is a String' }}"
+          echo "${{ null }}"
+          echo "${{ true }}"
+          echo "${{ 1 > 2 }}"
+          echo "${{ 'string' == 'String' }}"
+          echo "${{ true && false }}"
+          echo "${{ true || false }}"
+
+      - name: Displaying some Contexts
+        run: |
+          echo "GitHub Context: ${{ toJson(github) }}"
+          echo "Job Context: ${{ toJson(job) }}"
+          echo "Secrets Context: ${{ toJson(secrets) }}"
+          echo "Steps Context: ${{ toJson(steps) }}"
+          echo "Runner Context: ${{ toJson(runner) }}"
