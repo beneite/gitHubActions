@@ -27,7 +27,7 @@ This defines an environment variable named `WF_LEVEL_ENV` that is **accessible i
 ### 🧱 **Job: `env-vars-and-context`**
 
 ```yaml
-if: github.ref == 'refs/heads/main'
+if: github.ref == 'refs/heads/master'
 ```
 
 > 💡 **Note**: This job only runs if the workflow is triggered on the `main` branch. Otherwise, it will be skipped.
@@ -52,7 +52,7 @@ echo $GITHUB_REF
 This logs the raw environment variable `GITHUB_REF`, which is typically something like:
 
 ```
-refs/heads/main
+refs/heads/master
 ```
 
 ---
