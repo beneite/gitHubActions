@@ -42,10 +42,10 @@ jobs:
         if: cancelled()
         run: echo '⛔ Cancelled - This runs only if job is cancelled manually'
 
-    skipped-job:
-      needs: failure-job
-      if: success()  # this will be false because failure-job fails
-      runs-on: ubuntu-latest
-      steps:
-        - name: step 1. This will be skipped
-          run: echo '🚫 Skipped - This step will be skipped because it depends on failure-job success which got failed'
+  skipped-job:
+    needs: failure-job
+    if: success()  # this will be false because failure-job fails
+    runs-on: ubuntu-latest
+    steps:
+      - name: step 1. This will be skipped
+        run: echo '🚫 Skipped - This step will be skipped because it depends on failure-job success which got failed'
