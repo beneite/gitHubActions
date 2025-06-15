@@ -1,0 +1,27 @@
+name: timeouts on Job and Steps
+
+on:
+  workflow_dispatch:
+
+jobs:
+  timeout-on-job-level-job:
+    runs-on: ubuntu-latest
+    timeout-minutes: 1  # This will kill the entire job if it runs longer than 1 minute
+    steps:
+      - name: step 1. sleeping for 10 seconds (will timeout)
+        run: sleep 65
+
+      - name: step 2. printing the job status
+        if: always()
+        run: echo '❌ Step 1 failed due to timeout!'
+
+  timeout-on-step-level-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: step 1. sleeping for 10 seconds (will timeout)
+        timeout-minutes: 1  # This will kill the entire job if it runs longer than 1 minute at step level
+        run: sleep 65
+
+      - name: step 2. printing the job status
+        if: always()
+        run: echo '❌ Step 1 failed due to timeout!'
