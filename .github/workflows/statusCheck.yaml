@@ -1,0 +1,51 @@
+name: Status Check Functions on workflow
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  success-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: step 1. sleeping for 5 seconds
+        run: sleep 5
+      - name: step 2. Checking if the job is success or not
+        if: success()
+        run: echo '✅ Runs is Success '
+      - name: step 3. checking for Always() method
+        if: always()
+        run: echo '🟡 Always runs regardless of job result'
+
+  failure-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: step 1. sleeping for 20 seconds
+        run: sleep 20
+      - name: step 2. intentionally quiting the job
+        id: quitingStep2
+        run: exit 1
+      - name: step 3. Calling failure() method to check if job failed
+        if: failure() && steps.quitingStep2.conclusion == 'failure'
+        run: |
+          echo '❌ printing this because Step 2 got failed '
+      - name: step 4. checking for Always() method
+        if: always()
+        run: echo '🟡 Always runs regardless of job result'
+
+  cancelled-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: step 1. Simulate long process (Cancel manually in UI to test)
+        run: sleep 2000
+      - name: step 2. Runs if cancelled
+        if: cancelled()
+        run: echo '⛔ Cancelled - This runs only if job is cancelled manually'
+
+    skipped-job:
+      needs: failure-job
+      if: success()  # this will be false because failure-job fails
+      runs-on: ubuntu-latest
+      steps:
+        - name: step 1. This will be skipped
+          run: echo '🚫 Skipped - This step will be skipped because it depends on failure-job success which got failed'
