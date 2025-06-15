@@ -36,18 +36,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: step 1. Simulate long process (Cancel manually in UI to test)
-        run: sleep 2000
+        run: sleep 200
       - name: step 2. Runs if cancelled
         if: cancelled()
         run: echo '⛔ Cancelled - This runs only if job is cancelled manually'
 
-    skipped-job:
-      needs: failure-job
-      if: success()  # this will be false because failure-job fails
-      runs-on: ubuntu-latest
-      steps:
-        - name: step 1. This will be skipped
-          run: echo '🚫 Skipped - This step will be skipped because it depends on failure-job success which got failed'
+  skipped-job:
+    needs: failure-job
+    if: success()  # this will be false because failure-job fails
+    runs-on: ubuntu-latest
+    steps:
+      - name: step 1. This will be skipped
+        run: echo '🚫 Skipped - This step will be skipped because it depends on failure-job success which got failed'
 
   skipping-fail-with-continue-on-error-job:
     runs-on: ubuntu-latest
@@ -64,4 +64,16 @@ jobs:
           echo '✅ Runs is Success even tough  steps.quitingStep2.conclusion is failure'
       - name: step 4. checking for Always() method
         if: always()
-        run: echo '🟡 Always runs regardless of job result'
+        run: echo '✅ Job is Success'
+
+  failure-due-to-timeout-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: step 1. sleeping for 10 seconds (will timeout)
+        timeout-seconds: 5
+        continue-on-error: true
+        run: sleep 10
+
+      - name: step 2. checking for failure() method
+        if: failure()
+        run: echo '❌ Step 1 failed due to timeout!'
