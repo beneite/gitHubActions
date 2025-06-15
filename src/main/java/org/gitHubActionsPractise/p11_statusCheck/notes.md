@@ -41,7 +41,7 @@ period.
 
 #### Steps:
 
-1. **Sleep for a long time** (2000s = \~33 minutes) — gives you time to cancel.
+1. **Sleep for a long time** (200s = \~3 minutes) — gives you time to cancel.
 2. **Runs only if job is cancelled** – Will only run if the workflow was manually cancelled while sleeping.
 
 > Note: If not cancelled manually, step 2 won’t execute since `cancelled()` will be `false`.
