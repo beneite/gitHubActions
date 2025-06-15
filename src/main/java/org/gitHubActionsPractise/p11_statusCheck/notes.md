@@ -1,7 +1,7 @@
 # Status Check
 
-
-This GitHub Actions workflow demonstrates **status check functions** in action — specifically `success()`, `failure()`, `cancelled()`, `always()`, and how `needs` affects downstream jobs.
+This GitHub Actions workflow demonstrates **status check functions** in action — specifically `success()`, `failure()`,
+`cancelled()`, `always()`, and how `needs` affects downstream jobs.
 
 Let’s break down each job and the concepts it showcases:
 
@@ -36,7 +36,8 @@ This job simulates a failure.
 
 ### ⛔ **`cancelled-job`**
 
-Simulates cancellation — to test this, **you must manually cancel the workflow run from the UI** during its sleep period.
+Simulates cancellation — to test this, **you must manually cancel the workflow run from the UI** during its sleep
+period.
 
 #### Steps:
 
@@ -70,10 +71,11 @@ if: success()
 
 ### 🧠 Summary of Key Concepts
 
-| Status Function | Runs When…                                                         |
-| --------------- | ------------------------------------------------------------------ |
-| `success()`     | Previous steps/job succeed                                         |
-| `failure()`     | Any prior step fails                                               |
-| `cancelled()`   | Job is manually cancelled                                          |
-| `always()`      | Always runs, no matter what                                        |
-| `needs` + `if`  | Used to **conditionally run jobs based on dependencies' outcomes** |
+| Status Function         | Runs When…                                                                                                                  |
+|-------------------------|-----------------------------------------------------------------------------------------------------------------------------|
+| `success()`             | Previous steps/job succeed                                                                                                  |
+| `failure()`             | Any prior step fails                                                                                                        |
+| `cancelled()`           | Job is manually cancelled                                                                                                   |
+| `always()`              | Always runs, no matter what                                                                                                 |
+| `needs` + `if`          | Used to **conditionally run jobs based on dependencies' outcomes**                                                          |
+| continue-on-error: true | continue-on-error: true is a directive in GitHub Actions that tells the workflow not to fail the job even if the step fails |
