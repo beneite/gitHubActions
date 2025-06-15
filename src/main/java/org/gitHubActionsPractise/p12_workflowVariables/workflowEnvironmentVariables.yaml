@@ -1,4 +1,4 @@
-name: Environment Variables on Workflow, step and job level
+name: Variables on Workflow, step and job level
 
 on:
   workflow_dispatch:
