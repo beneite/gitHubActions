@@ -9,7 +9,7 @@ env:
 jobs:
   env-vars-and-context:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'  # ✅ Triggers only on main branch
+    if: github.ref == 'refs/heads/master'  # ✅ Triggers only on main branch
     env:
       JOB_LEVEL_ENV: Available to all steps in env-vars-and-context job
     steps:
