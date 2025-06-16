@@ -7,6 +7,7 @@ on:
 jobs:
   test-execution-via-2D-matrix:
     strategy:
+      fail-fast: false  # ✅ Ensures all combinations run even if one fails
       matrix:
         os: [ ubuntu-latest, macos-latest ]
         test-suite-name: [smokeTestSuite.xml, regressionTestSuite.xml, sanityTestSuite.xml]
