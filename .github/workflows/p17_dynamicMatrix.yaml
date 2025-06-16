@@ -31,6 +31,7 @@ jobs:
   test-execution-via-dynamic-matrix-job:
     needs: prepare-matrix-job
     strategy:
+      fail-fast: false  # ✅ Ensures all combinations run even if one fails
       matrix:
         os: ${{ fromJson(needs.prepare-matrix-job.outputs.matrix-to-feed-to-jobs).osArray }}
         test-suite-name: ${{ fromJson(needs.prepare-matrix-job.outputs.matrix-to-feed-to-jobs).testSuiteArray }}

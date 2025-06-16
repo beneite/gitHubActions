@@ -8,6 +8,7 @@ jobs:
   test-execution-via-1D-matrix:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false  # ✅ Ensures all combinations run even if one fails
       matrix:
         test-suite-name: [smokeTestSuite.xml, regressionTestSuite.xml, sanityTestSuite.xml]
     steps:
