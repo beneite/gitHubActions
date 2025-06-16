@@ -53,7 +53,7 @@ jobs:
           distribution: 'temurin'
           java-version: '17'  # or 11 based on your project
 
-      - name: Step 4 - Run the selected tests (if opted in)
+      - name: Step 4 - Run the selected tests
         run: |
           echo "Executing '${{ inputs.testType }}' tests..."
           

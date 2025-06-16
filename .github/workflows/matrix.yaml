@@ -1,0 +1,29 @@
+name: [1D matrix] demonstration
+
+on:
+  workflow_dispatch:
+
+
+jobs:
+  test-execution-via-1D-matrix:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        test-suite-name: [smokeTestSuite.xml, regressionTestSuite.xml, sanityTestSuite.xml]
+    steps:
+      - name: step 1. Starting the test
+        run: echo 'Testing is getting started'
+
+      - name: Step 2 - Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Step 3 - Setup Java and Maven
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Step 4 - Run the selected tests
+        run: |
+          echo "Executing '${{ matrix.test-suite-name }}' tests..."
+          mvn clean test -Dsuite=${{ matrix.test-suite-name }}
