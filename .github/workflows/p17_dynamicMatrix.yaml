@@ -10,7 +10,7 @@ on:
       test-suite-name:
         description: Enter the full testNg suite
         type: string
-        default: "smokeTestSuite.xml, regressionTestSuite.xml, sanityTestSuite.xml"
+        default: "smokeTestSuite.xml,regressionTestSuite.xml,sanityTestSuite.xml"
 
 jobs:
   prepare-matrix-job:
