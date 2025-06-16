@@ -19,7 +19,7 @@ jobs:
       matrix-to-feed-to-jobs: ${{ steps.matrix-preparation-step-id.outputs.result }}
     steps:
       - name: Converting the input comma separated string to json array with keys as os-array & test-suite-array
-        uses: actions/github-scripts@v6
+        uses: actions/github-script@v6
         id: matrix-preparation-step-id
         with:
           script: "return {osArray: context.payload.inputs['os-type'].split(',')
