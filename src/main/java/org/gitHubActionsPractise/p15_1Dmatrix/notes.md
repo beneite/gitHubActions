@@ -94,9 +94,3 @@ String suiteName = System.getProperty("suite");
 | Parallelism         | Speeds up testing by running suites simultaneously   |
 
 ---
-
-Let me know if you want to:
-
-* Convert this to a 2D matrix (e.g., test suite + environment),
-* Dynamically generate matrix from file/array,
-* Or integrate with TestNG programmatically.
