@@ -6,7 +6,7 @@ on:
       os-type:
         description: Enter the github-runner machine names comma separated
         type: string
-        default: "ubuntu-latest, macos-latest"
+        default: "ubuntu-latest,macos-latest"
       test-suite-name:
         description: Enter the full testNg suite
         type: string
