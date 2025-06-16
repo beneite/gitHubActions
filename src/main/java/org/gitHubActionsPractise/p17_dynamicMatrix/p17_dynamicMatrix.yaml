@@ -1,0 +1,54 @@
+name: Dynamic matrix demonstration - running different test suites on different runner machine os types
+
+on:
+  workflow_dispatch:
+    inputs:
+      os-type:
+        description: Enter the github-runner machine names comma separated
+        type: string
+        default: "ubuntu-latest, macos-latest"
+      test-suite-name:
+        description: Enter the full testNg suite
+        type: string
+        default: "smokeTestSuite.xml, regressionTestSuite.xml, sanityTestSuite.xml"
+
+jobs:
+  prepare-matrix-job:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix-to-feed-to-jobs: ${{ steps.matrix-preparation-step-id.outputs.result }}
+    steps:
+      - name: Converting the input comma separated string to json array with keys as os-array & test-suite-array
+        uses: actions/github-scripts@v6
+        id: matrix-preparation-step-id
+        with:
+          script: "return {osArray: context.payload.inputs['os-type'].split(',')
+           , testSuiteArray: context.payload.inputs['test-suite-name'].split(',')}"
+          result-encoded: json
+      - name: printing the json obtained below
+        run: echo '${{ steps.matrix-preparation-step-id.outputs.result }}'
+
+  test-execution-via-dynamic-matrix-job:
+    needs: prepare-matrix-job
+    strategy:
+      matrix:
+        os: ${{ fromJson(needs.prepare-matrix-job.outputs.matrix-to-feed-to-jobs).osArray }}
+        test-suite-name: ${{ fromJson(needs.prepare-matrix-job.outputs.matrix-to-feed-to-jobs).testSuiteArray }}
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: step 1. Starting the test
+        run: echo 'Testing is getting started'
+
+      - name: Step 2 - Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Step 3 - Setup Java and Maven
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Step 4 - Run the selected tests
+        run: |
+          echo "Executing '${{ matrix.test-suite-name }}' tests..."
+          mvn clean test -Dsuite=${{ matrix.test-suite-name }}
