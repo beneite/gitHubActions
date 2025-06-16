@@ -5,7 +5,7 @@ on:
 
 
 jobs:
-  test-execution-via-1D-matrix:
+  test-execution-via-2D-matrix:
     strategy:
       matrix:
         os: [ ubuntu-latest, macos-latest ]
