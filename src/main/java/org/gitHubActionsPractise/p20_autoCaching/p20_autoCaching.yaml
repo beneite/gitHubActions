@@ -1,0 +1,29 @@
+name: Maven Auto Cache Example
+
+on:
+  workflow_dispatch:
+
+jobs:
+  auto-cache-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Step 1 - Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Step 2 - Setup Java with Auto Maven Cache
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'maven'
+
+      - name: Step 3 - Display Cache Path Used
+        run: |
+          echo "📦 Maven cache is handled internally via setup-java"
+
+      - name: Step 4 - Run Dummy Maven Goal (go-offline)
+        run: mvn dependency:go-offline -B
+
+      - name: Step 5 - Job Complete
+        run: echo "✅ Maven auto-caching check completed"
