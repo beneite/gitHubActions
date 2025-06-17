@@ -1,0 +1,26 @@
+name: No Cache - Maven Dependency Download
+
+on:
+  workflow_dispatch:
+
+jobs:
+  no-cache-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Step 1 - Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Step 2 - Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Step 3 - Download dependencies (without cache)
+        run: |
+          echo "⏬ Downloading Maven dependencies (no cache)..."
+          mvn dependency:go-offline -B
+
+      - name: Step 4 - Done
+        run: echo "📦 Dependency download completed (no cache used)"
