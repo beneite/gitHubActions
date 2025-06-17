@@ -1,0 +1,34 @@
+name: Maven Cache Check with manual caching
+
+on:
+  workflow_dispatch:
+
+jobs:
+  cache-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Step 1 - Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Step 2 - Cache Maven dependencies
+        id: maven-cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: maven-${{ runner.os }}-${{ hashFiles('**/pom.xml') }}
+
+      - name: Step 4 - Show Cache Status
+        run: echo '${{ steps.maven-cache.outputs }}'
+
+      - name: Step 4 - Setup Java (optional for Maven later)
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Step 5 - Run a dummy Maven goal (skip tests) to fetch all the dependencies
+        run: mvn dependency:go-offline -B
+
+      - name: Step 5 - Done
+        run: echo "📦 Dependency download completed"
