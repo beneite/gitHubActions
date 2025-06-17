@@ -19,7 +19,12 @@ jobs:
           key: maven-${{ runner.os }}-${{ hashFiles('**/pom.xml') }}
 
       - name: Step 4 - Show Cache Status
-        run: echo '${{ toJSON(steps.maven-cache.outputs) }}'
+        run: |
+          if [[ "${{ steps.maven-cache.outputs.cache-hit }}" == 'true' ]]; then
+            echo "✅ Cache HIT: Maven dependencies are reused."
+          else
+            echo "⚠️ Cache MISS: Dependencies not cached, will download fresh."
+          fi
 
       - name: Step 4 - Setup Java (optional for Maven later)
         uses: actions/setup-java@v3
