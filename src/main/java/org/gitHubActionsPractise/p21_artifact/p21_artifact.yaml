@@ -2,7 +2,7 @@ name: Artifact for test run
 
 on:
   workflow_dispatch:
-    input:
+    inputs:
       testType:
         description: "Select type of test to run"
         type: choice
