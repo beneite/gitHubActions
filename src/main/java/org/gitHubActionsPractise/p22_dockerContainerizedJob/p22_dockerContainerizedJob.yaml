@@ -1,0 +1,25 @@
+name: p22_dockerContainerInRunnerMachine
+
+description: Running a simple Container inside our runner machine
+
+on:
+  workflow_dispatch:
+
+jobs:
+  note-container-in-runner-job:
+    runs-on: ubuntu-latest
+    container:
+      image: node:24-alpine3.21
+    env:
+      BASE_URL: www.beneite.com
+    ports:
+      - 80
+    steps:
+      - name: Log node version
+        run: node -v
+      - name: Log the OS version
+        run: |
+          cat /etc/os-release
+          echo "OS version: $(uname -a)"
+      - name: Print value for container env variable BASE_ENV
+        run: echo $BASE_URL
