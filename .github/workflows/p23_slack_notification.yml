@@ -1,0 +1,59 @@
+name: workflow_dispatch - Run Test cases branch=manualTriggerBranch
+
+description: |
+  This work flow will run for branch manualTriggerBranch, so you can switch that branch and run.
+  This workflow allows a user to manually trigger smoke, sanity, or regression test suites.
+  The user must provide their name, test priority, and select the type of test they want to execute.
+  It will only run on the branch named 'manualTriggerBranch'.
+
+on:
+  workflow_dispatch:
+    inputs:
+      testType:
+        description: "Select type of test to run"
+        type: choice
+        required: true
+        default: "smoke"
+        options:
+          - smoke
+          - regression
+          - sanity
+          - unit_test
+
+jobs:
+  trigger-tests:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name:  Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Java and Maven
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'  # or 11 based on your project
+
+      - name: Run the selected tests
+        run: |
+          echo "Executing '${{ inputs.testType }}' tests..."
+          
+          if [[ "${{ inputs.testType }}" == "smoke" ]]; then
+            mvn clean test -Dsuite=smokeTestSuite.xml
+          
+          elif [[ "${{ inputs.testType }}" == "regression" ]]; then
+            mvn clean test -Dsuite=regressionTestSuite.xml
+          
+          elif [[ "${{ inputs.testType }}" == "sanity" ]]; then
+            mvn clean test -Dsuite=sanityTestSuite.xml
+
+          elif [[ "${{ inputs.testType }}" == "unit_test" ]]; then
+            mvn clean test -Dsuite=failregressionTestSuite.xml
+            
+          fi
+
+      - name:  Test Run Completed
+        run: echo "Test Execution completed"
+
+      - name: Wrap Up
+        run: echo "✅ Job completed for ${{ inputs.userName }} on branch ${{ github.ref_name }}"
