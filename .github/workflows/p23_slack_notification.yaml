@@ -60,9 +60,15 @@ jobs:
         if: always()
         id: test_summary
         run: |
-          content=$(cat target/surefire-reports/TestSuite.txt)
-          content="${content//\"/\\\"}"  # escape double quotes
-          echo "summary=$content" >> $GITHUB_OUTPUT
+          summary=""
+          if [ -f target/surefire-reports/TestSuite.txt ]; then
+            summary=$(cat target/surefire-reports/TestSuite.txt)
+            summary="${summary//\"/\\\"}"  # escape double quotes
+          else
+            summary="⚠️ No TestSuite.txt file found."
+          fi
+          echo "summary=$summary" >> $GITHUB_OUTPUT
+
 
       - name: Set Slack Color
         id: slack_color
