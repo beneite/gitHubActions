@@ -53,7 +53,9 @@ jobs:
           fi
 
       - name:  Test Run Completed
+        if: always()
         run: echo "Test Execution completed"
 
       - name: Wrap Up
+        if: always()
         run: echo "✅ Job completed for ${{ inputs.userName }} on branch ${{ github.ref_name }}"
