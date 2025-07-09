@@ -83,6 +83,15 @@ jobs:
         uses: docker://technosophos/slack-notify
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_TITLE: Test Automation Results
-          SLACK_MESSAGE: ${{ steps.test_summary.outputs.summary }}
+          SLACK_TITLE: >
+            Test Automation Results - ${{ job.status == 'success' && '✅ Success' || '❌ Failed' }}
+          SLACK_MESSAGE: |
+            *👤 Triggered by:* `${{ github.actor }}`
+            *🌿 Branch:* `${{ github.ref_name }}`
+            *🧪 Test Type:* `${{ inputs.testType }}`
+            *📄 Summary:*
+            ```
+            ${{ steps.test_summary.outputs.summary }}
+            ```
+            <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Full Run →
           SLACK_COLOR: ${{ steps.slack_color.outputs.color }}
