@@ -2,7 +2,7 @@
 <suite name="Regression Test Suite">
     <test name="Regression Tests">
         <classes>
-            <class name="testModule.FailRegressionTestClass.java"/>
+            <class name="testModule.FailRegressionTestClass"/>
         </classes>
     </test>
 </suite>

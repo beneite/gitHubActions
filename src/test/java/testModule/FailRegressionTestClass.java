@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 
 import java.lang.reflect.Method;
 
-public class RegressionTestClass {
+public class FailRegressionTestClass {
 
     @BeforeTest
     public void logTestStart() {
@@ -47,7 +47,7 @@ public class RegressionTestClass {
 
     @Test(groups = {"regression"})
     public void regressionTest03(){
-        Assert.assertEquals(1, 1);
+        Assert.assertEquals(1, 2);
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
