@@ -1,10 +1,4 @@
-name: workflow_dispatch - Run Test cases branch=manualTriggerBranch
-
-description: |
-  This work flow will run for branch manualTriggerBranch, so you can switch that branch and run.
-  This workflow allows a user to manually trigger smoke, sanity, or regression test suites.
-  The user must provide their name, test priority, and select the type of test they want to execute.
-  It will only run on the branch named 'manualTriggerBranch'.
+name: p23_slack_notification
 
 on:
   workflow_dispatch:
@@ -49,7 +43,7 @@ jobs:
 
           elif [[ "${{ inputs.testType }}" == "unit_test" ]]; then
             mvn clean test -Dsuite=failregressionTestSuite.xml
-            
+          
           fi
 
       - name:  Test Run Completed
@@ -59,18 +53,18 @@ jobs:
       - name: Wrap Up
         if: always()
         run: |
-         echo "✅ Job completed for ${{ inputs.userName }} on branch ${{ github.ref_name }}"
-         cat target/surefire-reports/TestSuite.txt
+          echo "✅ Job completed for ${{ inputs.userName }} on branch ${{ github.ref_name }}"
+          cat target/surefire-reports/TestSuite.txt
 
       - name: Read TestSuite.txt into summary
-        id: test_summary
         if: always()
+        id: test_summary
         run: |
           content=$(cat target/surefire-reports/TestSuite.txt)
           content="${content//\"/\\\"}"  # escape double quotes
           echo "summary=$content" >> $GITHUB_OUTPUT
 
-      - name: Set Slack color based on job status
+      - name: Set Slack Color
         id: slack_color
         if: always()
         run: |
@@ -80,21 +74,11 @@ jobs:
             echo "color=#ff0000" >> $GITHUB_OUTPUT
           fi
 
-      - name: Send Surefire Report to Slack
+      - name: publish test results on Slack
         if: always()
-        uses: 8398a7/action-slack@v3
-        with:
-          status: ${{ job.status }}
-          custom_payload: |
-            {
-              "attachments": [
-                {
-                  "color": "$SLACK_COLOR",
-                  "text": "📄 *TestSuite.txt Output:*\n```$SLACK_SUMMARY```\nTriggered by `${{ github.actor }}` on branch `${{ github.ref_name }}`"
-                }
-              ]
-            }
+        uses: docker://technosophos/slack-notify
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_SUMMARY: ${{ steps.test_summary.outputs.summary }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_TITLE: Test Automation Results
+          SLACK_MESSAGE: ${{ steps.test_summary.outputs.summary }}
           SLACK_COLOR: ${{ steps.slack_color.outputs.color }}
