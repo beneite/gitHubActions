@@ -56,19 +56,29 @@ jobs:
          echo "✅ Job completed for ${{ inputs.userName }} on branch ${{ github.ref_name }}"
          cat target/surefire-reports/TestSuite.txt
 
-      - name: Read TestSuite.txt into summary
-        if: always()
+      - name: Extract Test Results Summary
         id: test_summary
+        if: always()
         run: |
-          summary=""
           if [ -f target/surefire-reports/TestSuite.txt ]; then
-            summary=$(cat target/surefire-reports/TestSuite.txt)
-            summary="${summary//\"/\\\"}"  # escape double quotes
+            line=$(grep "Tests run" target/surefire-reports/TestSuite.txt)
+
+            total=$(echo "$line" | sed -n 's/.*Tests run: \([0-9]*\),.*/\1/p')
+            failed=$(echo "$line" | sed -n 's/.*Failures: \([0-9]*\),.*/\1/p')
+            skipped=$(echo "$line" | sed -n 's/.*Skipped: \([0-9]*\).*/\1/p')
+
+            passed=$((total - failed - skipped))
+
+            summary="✅ Passed: $passed\n❌ Failed: $failed\n⚠️ Skipped: $skipped\n🔢 Total: $total"
           else
             summary="⚠️ No TestSuite.txt file found."
           fi
+
+          # Escape newlines and quotes for Slack
+          summary="${summary//\"/\\\"}"
+          summary="${summary//$'\n'/\\n}"
+
           echo "summary=$summary" >> $GITHUB_OUTPUT
-      
 
       - name: Set Slack Color
         id: slack_color
