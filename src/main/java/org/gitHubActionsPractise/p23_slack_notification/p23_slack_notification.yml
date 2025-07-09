@@ -59,19 +59,25 @@ jobs:
       - name: Wrap Up
         if: always()
         run: echo "✅ Job completed for ${{ inputs.userName }} on branch ${{ github.ref_name }}"
+
+      - name: Extract test result summary
+        id: test_summary
+        if: always()
+        run: |
+          SUMMARY=$(grep -h "Tests run:" target/surefire-reports/TEST-*.txt | tail -n 1)
+          echo "summary=$SUMMARY" >> $GITHUB_OUTPUT
       
       - name: Send Surefire Report to Slack
         if: always()
         uses: 8398a7/action-slack@v3
         with:
           status: ${{ job.status }}
-          fields: repo,commit,author,job,ref,workflow,took
           custom_payload: |
             {
               "attachments": [
                 {
                   "color": "${{ job.status == 'success' && '#36a64f' || '#ff0000' }}",
-                  "text": "*Surefire Report Output:*\n```$(cat target/surefire-reports/testsuite.txt | tail -n 40)```"
+                   "text": "*Test Summary*\n${{ steps.test_summary.outputs.summary }}\n\nTriggered by `${{ github.actor }}` on branch `${{ github.ref_name }}`"
                 }
               ]
             }
