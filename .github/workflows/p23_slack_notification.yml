@@ -58,13 +58,15 @@ jobs:
 
       - name: Wrap Up
         if: always()
-        run: echo "✅ Job completed for ${{ inputs.userName }} on branch ${{ github.ref_name }}"
+        run: |
+         echo "✅ Job completed for ${{ inputs.userName }} on branch ${{ github.ref_name }}"
+         cat target/surefire-reports/TestSuite.txt
 
       - name: Extract test result summary
         id: test_summary
         if: always()
         run: |
-          SUMMARY=$(grep -h "Tests run:" target/surefire-reports/TEST-*.txt | tail -n 1)
+          SUMMARY=$(grep -h "Tests run:" target/surefire-reports/TestSuite.txt | tail -n 1)
           echo "summary=$SUMMARY" >> $GITHUB_OUTPUT
       
       - name: Send Surefire Report to Slack
