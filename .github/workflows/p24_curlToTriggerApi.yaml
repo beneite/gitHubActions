@@ -39,7 +39,7 @@ jobs:
             --form 'bccEmails=""' \
             --form 'metadata={
               "data":{
-                "htmlBody":"<div style=\"font-family: Arial;\"><h2 style=\"color: #2c3e50;\">🚀 Deployment Completed</h2><p><strong>Status:</strong> Success</p><p><strong>Repo:</strong> '${{ github.repository }}'</p><p><strong>Run:</strong> <a href=\"${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\">View on GitHub</a></p></div>",
+                "htmlBody":"<h2>Deployment Completed</h2><p>Status: Success</p>",
                 "shipment":"SHP100",
                 "SHIPMENT_ID":"MYID100"
               },
