@@ -1,4 +1,4 @@
-name: Email Notification using Api
+name: Email Notification using API
 
 on:
   workflow_dispatch:
@@ -14,35 +14,35 @@ jobs:
       - name: Get Notification Token
         id: get_token
         run: |
-          response=$(curl -s --location 'https://staging-notification-service-api.cargoes.com/token' \
-            --header 'x-api-key: ihG7NYuWEVzPYVtKDXYvL5cew5lxo50W6' \
+          response=$(curl -s --location '${{ secrets.NOTIF_TOKEN_URL }}' \
+            --header 'x-api-key: ${{ secrets.NOTIF_API_KEY }}' \
             --header 'Content-Type: application/json' \
             --data-raw '{
-              "clientId": "L23U7MLPB9WECM8IGSJ4",
-              "clientSecret": "p2F$8sOqZdzGFDEvSSG@N$ucbux8NLMSh01nnbXc"
+              "clientId": "${{ secrets.NOTIF_CLIENT_ID }}",
+              "clientSecret": "${{ secrets.NOTIF_CLIENT_SECRET }}"
             }')
           
-          echo "API response: $response"
+          echo "Token fetched."
           token=$(echo "$response" | jq -r '.token')
           echo "token=$token" >> $GITHUB_OUTPUT
 
       - name: Send Email via Notification API
         run: |
-          curl --location 'https://staging-notification-service-api.cargoes.com/emailTemplates/sendEmail' \
-            --header 'x-api-key: NzZS6duBuf8YkmrDFTj24sbBIlKvcNmZ' \
+          curl --location '${{ secrets.NOTIF_EMAIL_URL }}' \
+            --header 'x-api-key: ${{ secrets.EMAIL_API_KEY }}' \
             --header "x-notification-service-integration-token: ${{ steps.get_token.outputs.token }}" \
-            --form 'templateName="Document_Management_Service_Email_Template"' \
-            --form 'organizationId="123477"' \
-            --form 'applicationId="runner"' \
-            --form 'recipientEmails="ashish.mishra@dpworld.com"' \
-            --form 'ccEmails=""' \
-            --form 'bccEmails=""' \
+            --form 'templateName=Document_Management_Service_Email_Template' \
+            --form 'organizationId=123477' \
+            --form 'applicationId=runner' \
+            --form 'recipientEmails=ashish.mishra@dpworld.com' \
+            --form 'ccEmails=' \
+            --form 'bccEmails=' \
             --form 'metadata={
-              "data":{
-                "htmlBody":"<h2>Deployment Completed</h2><p>Status: Success</p>",
-                "shipment":"SHP100",
-                "SHIPMENT_ID":"MYID100"
+              \"data\":{
+                \"htmlBody\":\"<div style=\\\"font-family: Arial;\\\"><h2 style=\\\"color: #2c3e50;\\\">🚀 Deployment Completed</h2><p><strong>Status:</strong> Success</p><p><strong>Repo:</strong> '${{ github.repository }}'</p><p><strong>Run:</strong> <a href=\\\"${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\\\">View on GitHub</a></p></div>\",
+                \"shipment\":\"SHP100\",
+                \"SHIPMENT_ID\":\"MYID100\"
               },
-              "from":null,
-              "subject":"Documents Shared from Cargoes Runner by ashish for {{shipment}}"
+              \"from\":null,
+              \"subject\":\"Documents Shared from Cargoes Runner by ashish for {{shipment}}\"
             }'
