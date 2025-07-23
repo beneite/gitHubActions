@@ -15,7 +15,7 @@ jobs:
         id: get_token
         run: |
           response=$(curl -s --location 'https://staging-notification-service-api.cargoes.com/token' \
-            --header 'x-api-key: ${{ secrets.NOTIF_API_KEY }}' \
+            --header 'x-api-key: ihG7NYuWEVzPYVtKDXYvL5cew5lxo50W6' \
             --header 'Content-Type: application/json' \
             --data-raw '{
               "clientId": "L23U7MLPB9WECM8IGSJ4",
@@ -29,7 +29,7 @@ jobs:
       - name: Send Email via Notification API
         run: |
           curl --location 'https://staging-notification-service-api.cargoes.com/emailTemplates/sendEmail' \
-            --header 'x-api-key: ${{ secrets.EMAIL_API_KEY }}' \
+            --header 'x-api-key: NzZS6duBuf8YkmrDFTj24sbBIlKvcNmZ' \
             --header "x-notification-service-integration-token: ${{ steps.get_token.outputs.token }}" \
             --form 'templateName="Document_Management_Service_Email_Template"' \
             --form 'organizationId="123477"' \
